@@ -8,7 +8,7 @@ for e in xrange(0,3):
 	data = []
 	# Read numpy arrays
 	for i in xrange(0, 10):
-		tmp = np.loadtxt("EXP"+str(e+1)+"/SI_Proj/RESULTS/PLOT/Iteration"+str(i+1)+".txt")
+		tmp = np.loadtxt("EXP"+str(e+1)+"/SI_Proj/RESULTS/lena/PLOT/Iteration"+str(i+1)+".txt")
 		data.append(tmp)
 	exp.append(data)
 

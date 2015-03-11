@@ -8,7 +8,7 @@ for e in xrange(0,3):
 	data = []
 	# Read numpy arrays
 	for i in xrange(0, 10):
-		tmp = np.loadtxt("EXP"+str(e+1)+"/SI_Proj/RESULTS/PLOT/Iteration"+str(i+1)+".txt")
+		tmp = np.loadtxt("EXP"+str(e+1)+"/SI_Proj/RESULTS/lena/PLOT/Iteration"+str(i+1)+".txt")
 		data.append(tmp)
 	exp.append(data)
 
@@ -17,7 +17,6 @@ exp1 = [np.average(i) for i in exp[0]]
 exp2 = [np.average(i) for i in exp[1]]
 exp3 = [np.average(i) for i in exp[2]]
 
-# Plot
 # Plot
 pl_exp1, = plt.plot(count, exp1, linestyle='-', marker='v', color='red', label='Ants initialized on random positions')
 pl_exp2, = plt.plot(count, exp2, linestyle='-', marker='s', color='green', label='Ants initialized on most promising solutions')

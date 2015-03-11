@@ -5,6 +5,7 @@ import random
 import logging
 import cv2
 import os
+import time
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
@@ -175,6 +176,8 @@ class PartitionBasedAcs:
         # Let the ant remember only last number(memory) of visited positions, and remove the remaining
         # self.ants['visited'][index_x][index_y][index_z] = self.ants['visited'][index_x][index_y][index_z][-self.memory:]
 
+    def __current_time_milli(self):
+        return int(round(time.time() * 1000))
 
     def __daemonActions(self, iter):
         self.__displayResults(iter=iter)
@@ -259,8 +262,12 @@ class PartitionBasedAcs:
 
     def run(self):
         log.debug("Running algorithm ...")
+        elapsed_time_array = [] # To store elapsed time for each iteration
+
         for iter in range(0, self.iter):  # For number of iterations
             log.debug("Iteration: " + str(iter + 1))
+            strt_time_millis = self.__current_time_milli()  # Calculate iteration start time
+            log.debug("START: "+str(strt_time_millis))
             for cons in range(0, self.cons):  # For number of construction steps
                 # index_x and index_y represent partition, index_z represents ant
                 for (index_x, index_y, index_z), ant in np.ndenumerate(self.ants):  # For all ants
@@ -272,9 +279,20 @@ class PartitionBasedAcs:
             # Update global pheromone
             self.__updateGlobalPheromone()
 
+            # Timing analysis
+            end_time_millis = self.__current_time_milli() # Calculate iteration end time
+            log.debug("END: "+str(end_time_millis))
+            elapsed_time = end_time_millis - strt_time_millis
+            elapsed_time_array.append(elapsed_time)
+            log.debug("ELAPSED TIME: "+str(elapsed_time)) # Debug elapsed time
+
             # Do daemon actions
             self.__daemonActions(iter + 1)
         log.debug("FINISHED running ACS")
+
+        # Save elapsed times to file
+        np.savetxt(os.path.join(SUB_DIRECTORY_PLOT, "elapsed_time.txt"), elapsed_time_array, fmt='%d', newline='\n')
+
         cv2.waitKey(0)
 
 
