@@ -127,10 +127,10 @@ class PartitionBasedAcs:
             self.ants['pheromone'][index_x][index_y][index_z] = 0.0
 
             # Mark initial ant positions
-            cv2.circle(img_mat, tuple(ant['position']), 2, (0, 0, 0))
+            cv2.circle(img_mat, tuple(ant['position'])[::-1], 2, (0, 0, 0))
 
             # Draw partitions on image
-            cv2.rectangle(img_mat, tuple(ant['boundary'][0]), tuple(ant['boundary'][1]), (0, 0, 0))
+            # cv2.rectangle(img_mat, tuple(ant['boundary'][0]), tuple(ant['boundary'][1]), (0, 0, 0))
 
         # Save the index of max heuristic value
         self.max_heuristic_index = self.nants - 1
